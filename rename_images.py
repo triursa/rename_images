@@ -7,7 +7,7 @@ def generate_unique_id(length=8):
     # Generates a random unique ID of specified length
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
-def rename_photos(input_directory, output_directory):
+def rename_photos(input_directory, output_directory, prefix=""):
     # List all files in the input directory
     files = os.listdir(input_directory)
 
@@ -23,7 +23,7 @@ def rename_photos(input_directory, output_directory):
             # Get the file extension
             file_extension = os.path.splitext(filename)[1]
             # Construct the new filename
-            new_filename = f"character_{unique_id}{file_extension}"
+            new_filename = f"{prefix}{unique_id}{file_extension}"
             # Get the full paths for the old and new filenames
             old_file = os.path.join(input_directory, filename)
             new_file = os.path.join(output_directory, new_filename)
@@ -48,5 +48,10 @@ script_directory = os.path.dirname(os.path.abspath(__file__))
 input_directory = os.path.join(script_directory, 'Images_to_Rename')
 output_directory = os.path.join(script_directory, 'Renamed_Images')
 
+# Ask the user for a prefix
+prefix = input("Enter a prefix for the filenames (press enter for no prefix): ").strip()
+if prefix:
+    prefix += "_"  # Add an underscore after the prefix if provided
+
 # Run the rename function
-rename_photos(input_directory, output_directory)
+rename_photos(input_directory, output_directory, prefix)
