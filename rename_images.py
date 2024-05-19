@@ -31,6 +31,16 @@ def rename_photos(input_directory, output_directory):
             shutil.copy(old_file, new_file)
             print(f"Copied and renamed '{filename}' to '{new_filename}'")
 
+    # Ask the user if they want to delete the contents of the input directory
+    if all(filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')) for filename in files):
+        delete_contents = input("Do you want to delete the contents of the 'Images_to_Rename' folder? (yes/no): ").strip().lower()
+        if delete_contents == 'yes':
+            for filename in files:
+                os.remove(os.path.join(input_directory, filename))
+            print(f"All files in '{input_directory}' have been deleted.")
+        else:
+            print("The files in 'Images_to_Rename' have not been deleted.")
+
 # Get the directory where the script is located
 script_directory = os.path.dirname(os.path.abspath(__file__))
 
